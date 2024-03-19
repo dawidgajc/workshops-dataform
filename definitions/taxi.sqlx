@@ -18,4 +18,4 @@ config {
 
 Select * from ${constants.sourceTable}
 
-${when(incremental(),` WHERE timestamp_trunc(trip_start_timestamp, DAY) > (SELECT max(trip_start_timestamp) ${self()})`)}
+${when(incremental(),` WHERE timestamp_trunc(trip_start_timestamp, DAY) > (SELECT max(trip_start_timestamp) FROM ${self()})`)}
