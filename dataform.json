@@ -1,0 +1,7 @@
+{
+    "defaultSchema"     : "dataform",
+    "assertionSchema"   : "dataform_assertions",
+    "warehouse"         : "bigquery",
+    "defaultDatabase"   : "tomasz-m-sandbox",
+    "defaultLocation"   : "EU"  
+  }
