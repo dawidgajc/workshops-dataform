@@ -12,10 +12,16 @@ config {
   },
   tags: ["daily"]
 
+}
 
+pre_operations {
+  DECLARE max_trip_start_time DEFAULT (
+    ${when(incremental(),
+    `SELECT max(trip_start_timestamp) FROM ${self()}`)}
+  );
 }
 
 
 Select * from ${constants.sourceTable}
 
-${when(incremental(),` WHERE timestamp_trunc(trip_start_timestamp, DAY) > (SELECT max(trip_start_timestamp) FROM ${self()})`)}
+${when(incremental(),` WHERE timestamp_trunc(trip_start_timestamp, DAY) > max_trip_start_time and timestamp_trunc(trip_start_timestamp, DAY) < timestamp(date_add(max_trip_start_time, interval 3 day))`)}
