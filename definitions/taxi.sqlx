@@ -1,0 +1,21 @@
+config {
+  type: "incremental",
+  name: "taxi",
+  description: "Taxi incremental table",
+  columns: docs.taxi_columns,
+  bigquery: {
+    partitionBy: "TIMESTAMP_TRUNC(trip_start_timestamp, DAY)",
+    clusterBy: ["payment_type"]
+  },
+  assertions: {
+    nonNull: ["unique_key", "taxi_id"]
+  },
+  tags: ["daily"]
+
+
+}
+
+
+Select * from ${constants.sourceTable}
+
+${when(incremental(),` WHERE timestamp_trunc(trip_start_timestamp, DAY) > (SELECT max(trip_start_timestamp) ${self()})`)}
