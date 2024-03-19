@@ -29,5 +29,5 @@ const taxi_columns = {
 
 
 module.exports = {
-    aggregated_columns,
+    taxi_columns,
 };
