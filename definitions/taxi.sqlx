@@ -15,10 +15,9 @@ config {
 }
 
 pre_operations {
-  DECLARE max_trip_start_time DEFAULT (
-    ${when(incremental(),
-    `SELECT max(trip_start_timestamp) FROM ${self()}`)}
-  );
+  ${when(incremental(),DECLARE max_trip_start_time DEFAULT (
+    SELECT max(trip_start_timestamp) FROM ${self()}
+  );`)}
 }
 
 
