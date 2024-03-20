@@ -1,6 +1,6 @@
 config {
   type: "incremental",
-  name: "√",
+  name: "taxi",
   description: "Taxi incremental table",
   columns: docs.taxi_columns,
   bigquery: {
