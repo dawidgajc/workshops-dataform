@@ -1,0 +1,12 @@
+config {
+  type: "table",
+  name: "fail_test",
+  description: "testing alerting",
+  schema: "salesforce",
+  tags : ["fail_test"]
+}
+
+SELECT
+    incorrect_column_name
+FROM
+  ${ref("taxi")}
