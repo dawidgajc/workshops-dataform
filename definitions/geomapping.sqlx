@@ -9,6 +9,6 @@ with points as (
 select distinct pickup_longitude, pickup_latitude
 from ${ref("dataform", "taxi")} ) 
 
-select p.*, string_agg(distinct STREET_NAM, ', ') from points p
+select p.*, string_agg(distinct STREET_NAM, ', ') road_name from points p
 left join `${constants.project}.${constants.tableSchema}.geomapping` on ST_dWITHIN( ST_GEOGFROMTEXT(the_geom), st_geogpoint(pickup_longitude, pickup_latitude),5) 
 group by all
