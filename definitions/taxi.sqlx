@@ -26,4 +26,5 @@ where  trip_miles > 0.5 or trip_seconds > 30
 or safe_divide(trip_miles,trip_seconds) < 0.0346 
 and safe_divide(trip_miles,trip_seconds) > 0.000172603
 
-${when(incremental(),` and trip_start_timestamp > max_trip_start_time and trip_start_timestamp < timestamp(date_add(max_trip_start_time, interval 1 MONTH))`)}
+${when(incremental(),` and trip_start_timestamp > max_trip_start_time 
+and trip_start_timestamp < select date_add(cast(timestamp_trunc(max_trip_start_time, MONTH) as date), INTERVAL 1 MONTH)`)}
