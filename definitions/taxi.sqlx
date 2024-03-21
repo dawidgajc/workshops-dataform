@@ -22,8 +22,8 @@ pre_operations {
 
 
 Select * from ${constants.sourceTable}
-where  trip_miles > 0.5 or trip_seconds > 30 
-or safe_divide(trip_miles,trip_seconds) < 0.0346 
+where  trip_miles > 0.5 and trip_seconds > 30 
+and safe_divide(trip_miles,trip_seconds) < 0.0346 
 and safe_divide(trip_miles,trip_seconds) > 0.000172603
 
 ${when(incremental(),` and trip_start_timestamp > max_trip_start_time 
