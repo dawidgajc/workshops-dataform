@@ -22,6 +22,6 @@ pre_operations {
 
 
 Select * from ${constants.sourceTable}
-where trip_seconds > 30 and trip_miles > 0.5 and trip_miles/trip_seconds < 0.0346 and trip_miles/trip_seconds > 0.000172603
+where trip_seconds > 30 or trip_miles > 0.5 or trip_miles/trip_seconds < 0.0346 and trip_miles/trip_seconds > 0.000172603
 
 ${when(incremental(),` and timestamp_trunc(trip_start_timestamp, DAY) > max_trip_start_time and timestamp_trunc(trip_start_timestamp, DAY) < timestamp(date_add(max_trip_start_time, interval 3 day))`)}
