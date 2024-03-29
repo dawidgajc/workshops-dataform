@@ -27,4 +27,4 @@ and safe_divide(trip_miles,trip_seconds) < 0.0346
 and safe_divide(trip_miles,trip_seconds) > 0.000172603
 
 ${when(incremental(),` and trip_start_timestamp > max_trip_start_time 
-and trip_start_timestamp < cast(date_add(cast(timestamp_trunc(max_trip_start_time, MONTH) as date), INTERVAL 1 MONTH) as timestamp)`)}
+and trip_start_timestamp < cast(date_add(cast(timestamp_trunc(max_trip_start_time, MONTH) as date), INTERVAL 2 MONTH) as timestamp)`)}
