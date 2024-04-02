@@ -1,0 +1,23 @@
+config {
+  type: "table",
+  name: "taxi_final",
+  description: "taxi with geomapping",
+  bigquery: {
+    partitionBy: "TIMESTAMP_TRUNC(trip_start_timestamp, MONTH)",
+    clusterBy: ["payment_type"]
+  }
+  tags : ["daily"]
+}
+
+pre_operations {
+  ${when(incremental(),`DECLARE max_trip_start_time DEFAULT (
+    SELECT max(trip_start_timestamp) FROM ${self()}
+  );`)}
+}
+
+
+select * from `tomasz-m-sandbox.dataform.taxi` t 
+left join `tomasz-m-sandbox.dataform.pickup_geo_mapping` p 
+on t.pickup_latitude = p.pickup_latitude 
+and t.pickup_longitude = p.pickup_longitude
+where road_name is not null
