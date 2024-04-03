@@ -4,7 +4,7 @@ config {
   description: "taxi with geomapping",
   bigquery: {
     partitionBy: "TIMESTAMP_TRUNC(trip_start_timestamp, MONTH)",
-    clusterBy: ["payment_type"]
+    clusterBy: ["company", "payment_type"]
   }
   tags : ["daily"]
 }
