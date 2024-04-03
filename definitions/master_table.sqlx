@@ -16,7 +16,7 @@ pre_operations {
 }
 
 
-select * from ${ref("dataform", "taxi")} t 
+select t.*, p.road_name from ${ref("dataform", "taxi")} t 
 left join `tomasz-m-sandbox.dataform.pickup_geo_mapping` p 
 on t.pickup_latitude = p.pickup_latitude 
 and t.pickup_longitude = p.pickup_longitude
