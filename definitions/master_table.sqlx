@@ -2,6 +2,7 @@ config {
   type: "table",
   name: "taxi_final",
   description: "taxi with geomapping",
+  columns: docs.final_columns,
   bigquery: {
     partitionBy: "TIMESTAMP_TRUNC(trip_start_timestamp, MONTH)",
     clusterBy: ["company", "payment_type"]

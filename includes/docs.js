@@ -56,4 +56,5 @@ const final_columns = {
 
 module.exports = {
     taxi_columns,
+    final_columns,
 };
