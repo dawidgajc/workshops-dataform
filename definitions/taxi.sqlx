@@ -8,7 +8,7 @@ config {
     clusterBy: ["company", "payment_type"]
   },
   assertions: {
-    nonNull: ["unique_key", "taxi_id"]
+    nonNull: ["trip_start_timestamp", "company"]
   },
   tags: ["daily"]
 
