@@ -1,7 +1,7 @@
 // Docs for the columns in the incremental tables:
 const taxi_columns = {
     trip_start_timestamp: "When the trip started, rounded to the nearest 15 minutes.",
-    trip_start_timestamp: "When the trip ended, rounded to the nearest 15 minutes.",
+    trip_end_timestamp: "When the trip ended, rounded to the nearest 15 minutes.",
     trip_seconds: "Time of the trip in seconds.",
     trip_miles: "Distance of the trip in miles.",
     pickup_census_tract: "The Census Tract where the trip began. For privacy, this Census Tract is not shown for some trips.",
@@ -28,7 +28,7 @@ const taxi_columns = {
 
 const final_columns = {
     trip_start_timestamp: "When the trip started, rounded to the nearest 15 minutes.",
-    trip_start_timestamp: "When the trip ended, rounded to the nearest 15 minutes.",
+    trip_end_timestamp: "When the trip ended, rounded to the nearest 15 minutes.",
     trip_seconds: "Time of the trip in seconds.",
     trip_miles: "Distance of the trip in miles.",
     pickup_census_tract: "The Census Tract where the trip began. For privacy, this Census Tract is not shown for some trips.",
