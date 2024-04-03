@@ -5,7 +5,7 @@ config {
   columns: docs.taxi_columns,
   bigquery: {
     partitionBy: "TIMESTAMP_TRUNC(trip_start_timestamp, MONTH)",
-    clusterBy: ["payment_type"]
+    clusterBy: ["company", "payment_type"]
   },
   assertions: {
     nonNull: ["unique_key", "taxi_id"]
@@ -20,11 +20,84 @@ pre_operations {
   );`)}
 }
 
+with taxi_trips as (
+  SELECT
+    trip_start_timestamp,
+    trip_end_timestamp,
+    trip_seconds,
+    trip_miles,
+    pickup_census_tract,
+    dropoff_census_tract,
+    pickup_community_area,
+    dropoff_community_area,
+    fare,
+    tips,
+    tolls,
+    extras,
+    trip_total,
+    payment_type,
+    company,
+    pickup_longitude,
+    pickup_latitude,
+    dropoff_longitude,
+    dropoff_latitude,
+    IF((tips/fare >= 0.2), 1, 0) AS tip_bin
+  FROM
+    ${constants.sourceTable}
+  WHERE
+    trip_miles > 0
+    AND fare > 0
+    AND trip_seconds > 30
+    AND SAFE_DIVIDE(trip_miles,trip_seconds) < 0.0346
+    AND SAFE_DIVIDE(trip_miles,trip_seconds) > 0.000172603
+    AND pickup_longitude IS NOT NULL
+    AND pickup_latitude IS NOT NULL
+    AND dropoff_longitude IS NOT NULL
+    AND dropoff_latitude IS NOT NULL
+    AND company IN (
+      SELECT company
+      FROM (
+        SELECT company, COUNT(*) l
+        FROM ${constants.sourceTable}
+        WHERE company IS NOT NULL
+        GROUP BY company
+        ORDER BY l DESC
+        LIMIT 5))
+  )
+SELECT
+  trip_start_timestamp,
+  trip_end_timestamp,
+  trip_seconds,
+  trip_miles,
+  pickup_census_tract,
+  dropoff_census_tract,
+  pickup_community_area,
+  dropoff_community_area,
+  fare,
+  tips,
+  tolls,
+  extras,
+  trip_total,
+  payment_type,
+  company,
+  pickup_longitude,
+  pickup_latitude,
+  dropoff_longitude,
+  dropoff_latitude,
+  tip_bin,
+  ST_AsText(ST_SnapToGrid(ST_GeogPoint(pickup_longitude,
+        pickup_latitude), 0.1)) AS pickup_grid,
+  ST_AsText(ST_SnapToGrid(ST_GeogPoint(dropoff_longitude,
+        dropoff_latitude), 0.1)) AS dropoff_grid,
+  ST_Distance(ST_GeogPoint(pickup_longitude,
+      pickup_latitude),
+    ST_GeogPoint(dropoff_longitude,
+      dropoff_latitude)) AS euclidean,
+  CONCAT(ST_AsText(ST_SnapToGrid(ST_GeogPoint(pickup_longitude,
+          pickup_latitude), 0.1)), ST_AsText(ST_SnapToGrid(ST_GeogPoint(dropoff_longitude,
+          dropoff_latitude), 0.1))) AS loc_cross
+FROM
+  taxi_trips
 
-Select * from ${constants.sourceTable}
-where  trip_miles > 0.5 and trip_seconds > 30 
-and safe_divide(trip_miles,trip_seconds) < 0.0346 
-and safe_divide(trip_miles,trip_seconds) > 0.000172603
-
-${when(incremental(),` and trip_start_timestamp > max_trip_start_time 
+${when(incremental(),` WHERE trip_start_timestamp > max_trip_start_time 
 and trip_start_timestamp < cast(date_add(cast(timestamp_trunc(max_trip_start_time, MONTH) as date), INTERVAL 2 MONTH) as timestamp)`)}

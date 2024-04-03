@@ -1,7 +1,5 @@
 // Docs for the columns in the incremental tables:
 const taxi_columns = {
-    unique_key: "Unique identifier for the trip.",
-    taxi_id: "A unique identifier for the taxi.",
     trip_start_timestamp: "When the trip started, rounded to the nearest 15 minutes.",
     trip_start_timestamp: "When the trip ended, rounded to the nearest 15 minutes.",
     trip_seconds: "Time of the trip in seconds.",
@@ -19,12 +17,13 @@ const taxi_columns = {
     company: "The taxi company.",
     pickup_latitude: "The latitude of the center of the pickup census tract or the community area if the census tract has been hidden for privacy.",
     pickup_longitude: "The longitude of the center of the pickup census tract or the community area if the census tract has been hidden for privacy.",
-    pickup_location: "The location of the center of the pickup census tract or the community area if the census tract has been hidden for privacy.",
     dropoff_latitude: "The latitude of the center of the dropoff census tract or the community area if the census tract has been hidden for privacy.",
     dropoff_longitude: "The longitude of the center of the dropoff census tract or the community area if the census tract has been hidden for privacy.",
-    dropoff_location: "	The location of the center of the dropoff census tract or the community area if the census tract has been hidden for privacy."
-
-
+    tip_bin: "Tip/Fare bins - over or equal 0.2 and below",
+    pickup_grid: "The pickup grid calculated",
+    dropoff_grid: "The dropoff grid calculated",
+    euclidean: "The euclidean distance of a trip",
+    loc_cross: "The concatenation of pickup and dropoff grids"
 }
 
 
