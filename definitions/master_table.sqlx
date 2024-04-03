@@ -6,7 +6,7 @@ config {
   bigquery: {
     partitionBy: "TIMESTAMP_TRUNC(trip_start_timestamp, MONTH)",
     clusterBy: ["company", "payment_type"]
-  }
+  },
   tags : ["daily"]
 }
 
