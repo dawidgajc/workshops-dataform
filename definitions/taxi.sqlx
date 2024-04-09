@@ -54,6 +54,8 @@ with taxi_trips as (
     AND pickup_latitude IS NOT NULL
     AND dropoff_longitude IS NOT NULL
     AND dropoff_latitude IS NOT NULL
+    AND pickup_longitude != dropoff_longitude
+    AND pickup_latitude != dropoff_latitude
     AND company IN (
       SELECT company
       FROM (
